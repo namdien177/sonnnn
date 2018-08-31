@@ -17,7 +17,7 @@ class CreateTeamsTable extends Migration
             $table->increments('id');
             $table->string('name','400');
             $table->string('country','400');
-            $table->string('world_score','400');
+            $table->unsignedInteger('world_score');
             $table->string('description','400');
             $table->timestamps();
         });

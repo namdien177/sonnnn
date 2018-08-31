@@ -17,9 +17,6 @@ class CreateMapsTable extends Migration
             $table->increments('id');
             $table->string('title','400');
             $table->string('intro','400');
-            $table->string('spawn','400');
-            $table->string('bombsite','400');
-            $table->string('img','400')->nullable();
             $table->timestamps();
         });
     }

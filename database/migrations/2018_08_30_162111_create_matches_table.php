@@ -16,6 +16,7 @@ class CreateMatchesTable extends Migration
         Schema::create('matches', function (Blueprint $table) {
             $table->increments('id');
             $table->dateTime('time');
+            $table->unsignedInteger('status');
             $table->timestamps();
         });
     }
