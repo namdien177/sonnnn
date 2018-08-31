@@ -17,6 +17,6 @@ class News extends Model
     }
 
     public function comment(){
-        return $this->hasMany('App/comments','idNews','id');
+        return $this->hasMany('App\comments','idNews','id');
     }
 }

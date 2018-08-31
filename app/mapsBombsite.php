@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class mapsBombsite extends Model
 {
-    protected $table = 'map_bombsites';
+    protected $table = 'maps_bombsites';
 
     public function Map(){
-        return $this->belongsTo('App/Map','idMap','id');
+        return $this->belongsTo('App\Map','idMap','id');
     }
 }

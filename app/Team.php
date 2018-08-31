@@ -9,10 +9,10 @@ class Team extends Model
     protected $table = 'teams';
 
     public function player(){
-        return $this->hasMany('App/Player','idTeam','id');
+        return $this->hasMany('App\Player','idTeam','id');
     }
 
     public function MatchTEam(){
-        return $this->hasMany('App/MatchTeam','idTeam','id');
+        return $this->hasMany('App\MatchTeam','idTeam','id');
     }
 }
