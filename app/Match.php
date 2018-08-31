@@ -9,6 +9,6 @@ class Match extends Model
     protected $table = 'matches';
 
     public function matchteam(){
-        return $this->hasMany('App\MatchTeam','id','idTeam');
+        return $this->hasMany('App\MatchTeam','idMatch','id');
     }
 }

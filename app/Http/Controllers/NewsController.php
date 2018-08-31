@@ -6,11 +6,13 @@ use App\Map;
 use App\Match;
 use App\MatchTeam;
 use App\News;
+use App\NewsContent;
 use App\Player;
 use App\Team;
 use App\mapsBombsite;
 use App\mapsSpawn;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 
 class NewsController extends Controller
 {
@@ -21,7 +23,7 @@ class NewsController extends Controller
      */
     public function indexNews()
     {
-        $news = News::with('NewsContent')->get();
+        $news = News::with('NewsContent')->with('comments')->get();
         return $news;
     }
 
@@ -56,9 +58,38 @@ class NewsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function storeNews(Request $request)
     {
-        //
+        $title = $request->input('title');
+        $contents = $request->input('contents');
+        $IDuser = $request->input('idUser');
+
+        if ($title == null || $contents == null || $IDuser == null){
+            return Response()->json([
+                'boolean'=>false,
+                'message'=>'Some of required fields is empty'
+            ]);
+        }
+
+        $news = new News;
+        $news->title = $title;
+        $news->idUser = $IDuser;
+        $news->save();
+        $idNews = $news->id;
+
+        foreach ($contents as $content){
+            $cont = new NewsContent;
+            $cont->idNews = $idNews;
+            $cont->content = $content['content'];
+            if ($content['img'] != null){
+                $cont->img = $content['img'];
+            }
+            $cont->save();
+        }
+        return Response()->json([
+            'boolean'=>true,
+            'message'=>'Your content is uploaded successfully'
+        ]);
     }
 
     /**
@@ -90,9 +121,9 @@ class NewsController extends Controller
 
     public function showTeamMatches($id){
         if ($id != null && value($id)> 0){
-            $teamMatch = Match::with('MatchTeam')->whereHas('MatchTeam', function ($query) use ($id){
-                $query->find($id);
-            });
+            $teamMatch = Match::whereHas('MatchTeam', function ($query) use ($id){
+                $query->where('idTeam','=',$id);
+            })->with('MatchTeam')->get();
             if ($teamMatch != null) {
                 return $teamMatch;
             }
@@ -106,6 +137,17 @@ class NewsController extends Controller
         if ($id != null && value($id)> 0)
         $player = Player::with('Team')->find($id);
         return $player;
+    }
+
+    public function showPlayerWithName(){
+        $string = Input::get('name');
+        $result = null;
+        if ($string != null && strlen(trim($string)) >1){
+            $result = Player::with('Team')->where('name','like','%'.trim($string).'%')
+                ->orWhere('real_name','=','%'.trim($string).'%')->get();
+            return $result;
+        }
+        return $result;
     }
 
     /**
