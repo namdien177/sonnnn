@@ -16,9 +16,7 @@ class NewsController extends Controller
     public function indexNews()
     {
         $news = News::with('NewsContent')->get();
-        return Response()->json([
-            'data'=>$news
-        ]);
+        return $news;
     }
 
     public function indexMaps(){
