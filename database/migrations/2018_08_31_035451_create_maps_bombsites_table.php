@@ -16,8 +16,8 @@ class CreateMapsBombsitesTable extends Migration
         Schema::create('maps_bombsites', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('idMap');
-            $table->string('bombsite');
-            $table->string('img')->nullable();
+            $table->string('bombsite','400');
+            $table->string('img','400')->nullable();
             $table->timestamps();
         });
     }

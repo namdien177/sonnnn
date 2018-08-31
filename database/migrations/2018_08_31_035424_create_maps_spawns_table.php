@@ -16,7 +16,7 @@ class CreateMapsSpawnsTable extends Migration
         Schema::create('maps_spawns', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('idMap');
-            $table->string('spawn');
+            $table->string('spawn','400');
             $table->string('img')->nullable();
             $table->timestamps();
         });

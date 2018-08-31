@@ -4,6 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @method static where()
+ */
 class MatchTeam extends Model
 {
     protected $table ='match_teams';

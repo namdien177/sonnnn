@@ -20,6 +20,7 @@ class CreatePlayersTable extends Migration
             $table->unsignedInteger('age');
             $table->unsignedInteger('idTeam');
             $table->string('img','400')->nullable();
+            $table->unsignedInteger('leader')->default('1');
             $table->timestamps();
         });
     }

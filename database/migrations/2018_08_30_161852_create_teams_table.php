@@ -19,6 +19,8 @@ class CreateTeamsTable extends Migration
             $table->string('country','400');
             $table->unsignedInteger('world_score');
             $table->string('description','400');
+            $table->string('cover','400')->nullable();
+            $table->string('logo','400');
             $table->timestamps();
         });
     }

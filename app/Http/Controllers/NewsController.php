@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Map;
+use App\Match;
+use App\MatchTeam;
 use App\News;
 use App\Player;
 use App\Team;
@@ -66,9 +68,44 @@ class NewsController extends Controller
      * @return Team|Team[]|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model
      */
     public function showTeam($id)
-    {   if ($id != null && value($id)> 0)
+    {
+        $team = [];
+        if ($id != null && value($id)> 0)
         $team = Team::with('Player')->find($id);
         return $team;
+    }
+
+    public function showTeamLeader($id)
+    {
+        if ($id != null && value($id)> 0){
+            $team = Team::find($id);
+            if ($team != null) {
+                foreach ($team->player as $player) {
+                    if ($player->leader == 1) return $player;
+                }
+            }
+        }
+        return null;
+    }
+
+    public function showTeamMatches($id){
+        if ($id != null && value($id)> 0){
+            $teamMatch = Match::with('MatchTeam')->whereHas('MatchTeam', function ($query) use ($id){
+                $query->find($id);
+            });
+            if ($teamMatch != null) {
+                return $teamMatch;
+            }
+        }
+        return [];
+    }
+
+    public function showPlayer($id)
+    {
+        $player = [];
+        if ($id != null && value($id)> 0)
+        $player = Player::with('Team')->find($id);
+        return $player;
     }
 
     /**

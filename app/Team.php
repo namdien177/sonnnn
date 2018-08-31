@@ -12,7 +12,7 @@ class Team extends Model
         return $this->hasMany('App\Player','idTeam','id');
     }
 
-    public function MatchTEam(){
+    public function MatchTeam(){
         return $this->hasMany('App\MatchTeam','idTeam','id');
     }
 }

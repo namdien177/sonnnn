@@ -20,8 +20,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::get('/news', 'NewsController@indexNews');
+
 Route::get('/maps','NewsController@indexMaps');
+
 Route::get('/teams','NewsController@indexTeams');
 Route::get('/teams/{id}','NewsController@showTeam');
+Route::get('/teams/{id}/leader','NewsController@showTeamLeader');
+Route::get('/teams/{id}/matches','NewsController@showTeamMatches');
+
 Route::get('/players','NewsController@indexPlayers');
 
