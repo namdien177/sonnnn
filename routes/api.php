@@ -21,6 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('/news', 'NewsController@indexNews');
 Route::post('/news/upload','NewsController@storeNews');
+Route::post('/news/comment/upload','NewsController@storeNewsComment');
 
 Route::get('/maps','NewsController@indexMaps');
 
@@ -30,5 +31,5 @@ Route::get('/teams/{id}/leader','NewsController@showTeamLeader');
 Route::get('/teams/{id}/matches','NewsController@showTeamMatches');
 
 Route::get('/players','NewsController@indexPlayers');
-Route::get('/players/search','NewsController@showPlayerWithName');
+Route::get('/players/{id}','NewsController@showPlayer');
 

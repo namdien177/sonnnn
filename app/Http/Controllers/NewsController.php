@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\comments;
 use App\Map;
 use App\Match;
 use App\MatchTeam;
@@ -32,7 +33,11 @@ class NewsController extends Controller
         return $maps;
     }
 
-    public function indexPlayers(){
+    public function indexPlayers(Request $request){
+        $strsearch = $request->input('name');
+        if ($strsearch != null && strlen($strsearch) >2){
+            return $this->showPlayerWithName($strsearch);
+        }
         $players = Player::with('Team')->get();
         return $players;
     }
@@ -92,6 +97,39 @@ class NewsController extends Controller
         ]);
     }
 
+    public function storeNewsComment(Request $request){
+        $email = $request->input('email');
+        $name = $request->input('name');
+        $idNews = $request->input('idNews');
+        $comment = $request->input('comment');
+
+        if ($email == null || $name == null || $idNews == null || $comment == null){
+            return Response()->json([
+                'boolean'=>false,
+                'message'=>'Comment cannot be posted!'
+            ]);
+        }
+
+        $comm = new comments;
+        $comm->email = $email;
+        $comm->name = $name;
+        $comm->idNews = $idNews;
+        $comm->comment = $comment;
+
+        if ($comm->save()){
+            return Response()->json([
+                'boolean'=>true,
+                'message'=>'Comment was posted successfully'
+            ]);
+        }
+
+        return Response()->json([
+            'boolean'=>false,
+            'message'=>'Comment cannot be posted!'
+        ]);
+
+    }
+
     /**
      * Display the specified resource.
      *
@@ -139,12 +177,11 @@ class NewsController extends Controller
         return $player;
     }
 
-    public function showPlayerWithName(){
-        $string = Input::get('name');
+    public function showPlayerWithName($search){
         $result = null;
-        if ($string != null && strlen(trim($string)) >1){
-            $result = Player::with('Team')->where('name','like','%'.trim($string).'%')
-                ->orWhere('real_name','=','%'.trim($string).'%')->get();
+        if ($search != null && strlen(trim($search)) >1){
+            $result = Player::with('Team')->where('name','like','%'.trim($search).'%')
+                ->orWhere('real_name','=','%'.trim($search).'%')->get();
             return $result;
         }
         return $result;
