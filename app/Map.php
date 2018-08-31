@@ -9,10 +9,10 @@ class Map extends Model
     protected $table = 'maps';
 
     public function mapsBombsite(){
-        return $this->hasMany('App/mapsBombsite','idMap','id');
+        return $this->hasMany('App\mapsBombsite','idMap','id');
     }
 
     public function mapsSpawn(){
-        return $this->hasMany('App/mapsSpawn','idMap','id');
+        return $this->hasMany('App\mapsSpawn','idMap','id');
     }
 }

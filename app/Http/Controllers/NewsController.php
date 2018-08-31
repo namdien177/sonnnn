@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Map;
 use App\News;
+use App\Player;
+use App\Team;
+use App\mapsBombsite;
+use App\mapsSpawn;
 use Illuminate\Http\Request;
 
 class NewsController extends Controller
@@ -11,18 +15,27 @@ class NewsController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return News[]|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
      */
     public function indexNews()
     {
         $news = News::with('NewsContent')->get();
-        return Response()->json([
-            'data'=>$news
-        ]);
+        return $news;
     }
 
     public function indexMaps(){
-//        $maps = Map::
+        $maps = Map::with('mapsBombsite')->with('mapsSpawn')->get();
+        return $maps;
+    }
+
+    public function indexPlayers(){
+        $players = Player::with('Team')->get();
+        return $players;
+    }
+
+    public function indexTeams(){
+        $teams = Team::with('Player')->get();
+        return $teams;
     }
 
     /**
@@ -50,11 +63,12 @@ class NewsController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Team|Team[]|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model
      */
-    public function show($id)
+    public function showTeam($id)
     {
-        //
+        $team = Team::with('Player')->find($id);
+        return $team;
     }
 
     /**
