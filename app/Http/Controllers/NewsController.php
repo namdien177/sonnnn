@@ -66,7 +66,7 @@ class NewsController extends Controller
      * @return Team|Team[]|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model
      */
     public function showTeam($id)
-    {
+    {   if ($id != null && value($id)> 0)
         $team = Team::with('Player')->find($id);
         return $team;
     }
