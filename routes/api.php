@@ -21,6 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('/news', 'NewsController@indexNews');
 Route::post('/news/upload','NewsController@storeNews');
+Route::post('/news/update','NewsController@updateNews');
 Route::post('/news/comment/upload','NewsController@storeNewsComment');
 
 Route::get('/maps','NewsController@indexMaps');

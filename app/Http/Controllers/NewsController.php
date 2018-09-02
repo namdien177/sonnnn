@@ -198,13 +198,52 @@ class NewsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $id)
+    public function updateNews(Request $request)
     {
-        //
+        $idnews = $request->input('idNews');
+        $title = $request->input('title');
+        $contents = $request->input('contents');
+
+        if ($idnews == null || $title == null || $contents == null || !is_array($contents)){
+            return Response()->json([
+                'boolean'=>false,
+                'message'=>'Update news failed, some of required content cannot be found'
+            ]);
+        }
+        $findNewsUpdate = News::find($idnews);
+
+        if ($findNewsUpdate == null ){
+            return Response()->json([
+                'boolean'=>false,
+                'message'=>'Update news failed, that news doesn\'t exist'
+            ]);
+        }
+
+        $findNewsUpdate->title = $title;
+        $findNewsUpdate->save();
+
+        foreach ($contents as $content)
+        {
+            if (is_string($content['content'])){
+                $cont = NewsContent::where('idNews','=', $idnews)->where('id','=', $content['id'])->first();
+                if ($cont == null) continue;
+                if ( strlen($content['content']) == 0 && ($content['img'] == null || strlen($content['img']) == 0) ){
+                    $cont->delete();
+                }
+                else{
+                    $cont->content = $content['content'];
+                    $cont->img = $content['img'];
+                    $cont->save();
+                }
+            }
+        }
+        return Response()->json([
+            'boolean'=>true,
+            'message'=>'Update news succeed'
+        ]);
     }
 
     /**
