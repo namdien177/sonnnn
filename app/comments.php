@@ -9,6 +9,6 @@ class comments extends Model
     protected $table = 'comments';
 
     public function News(){
-        return $this->belongsTo('App\User','idNews','id');
+        return $this->belongsTo('App\News','idNews','id');
     }
 }

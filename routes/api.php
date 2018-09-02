@@ -33,3 +33,16 @@ Route::get('/teams/{id}/matches','NewsController@showTeamMatches');
 Route::get('/players','NewsController@indexPlayers');
 Route::get('/players/{id}','NewsController@showPlayer');
 
+Route::group([
+
+    'middleware' => 'api'
+
+], function ($router) {
+
+    Route::post('login', 'AuthController@login');
+    Route::post('logout', 'AuthController@logout');
+    Route::post('refresh', 'AuthController@refresh');
+    Route::post('me', 'AuthController@me');
+
+});
+

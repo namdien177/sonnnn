@@ -99,20 +99,18 @@ class NewsController extends Controller
 
     public function storeNewsComment(Request $request){
         $email = $request->input('email');
-        $name = $request->input('name');
         $idNews = $request->input('idNews');
         $comment = $request->input('comment');
 
-        if ($email == null || $name == null || $idNews == null || $comment == null){
+        if ($email == null || $idNews == null || $comment == null){
             return Response()->json([
                 'boolean'=>false,
-                'message'=>'Comment cannot be posted!'
+                'message'=>'Comment cannot be posted!!!!!!!!!!'
             ]);
         }
 
         $comm = new comments;
         $comm->email = $email;
-        $comm->name = $name;
         $comm->idNews = $idNews;
         $comm->comment = $comment;
 
@@ -176,7 +174,6 @@ class NewsController extends Controller
         $player = Player::with('Team')->find($id);
         return $player;
     }
-
     public function showPlayerWithName($search){
         $result = null;
         if ($search != null && strlen(trim($search)) >1){
